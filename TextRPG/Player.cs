@@ -2,19 +2,19 @@
 {
     public class Player
     {
-        public string name;
-        public string job;
-        public int level;
-        public int exp;
-        public float attack;
-        public float defense;
-        public float hp;
-        public int gold;
-        public List<Item> equipment;
-        public Item? weapon;
-        public Item? armor;
+        public string name;     // 플레이어 이름
+        public string job;      // 직업
+        public int level;       // 레벨
+        public int exp;         //경험치
+        public float attack;    // 공격력
+        public float defense;   // 방어력
+        public float hp;        // 체력
+        public int gold;        // 보유 골드
+        public List<Item> equipment;    // 보유 아이템
+        public Item? weapon;    // 착용중인 무기
+        public Item? armor;     // 착용중인 방어구
 
-        public Player()
+        public Player() // 플레이어 초기 상태
         {
             name = "Sin";
             job = "전사";
@@ -27,7 +27,7 @@
             equipment = new List<Item>();
         }
 
-        public void showStatus()
+        public void showStatus()    // 플레이어 상태 출력
         {
             while (true)
             {
@@ -47,9 +47,10 @@
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
-                try
+
+                try  
                 {
-                    int input = int.Parse(Console.ReadLine()); // 사용자 입력 받기
+                    int input = int.Parse(Console.ReadLine());
 
                     switch (input)
                     {
@@ -61,7 +62,7 @@
                             break;
                     }
                 }
-                catch (FormatException)
+                catch (FormatException) // 입력이 숫자가 아닐 경우 예외 처리
                 {
                     Console.WriteLine("잘못된 입력입니다. 숫자만 입력해주세요.");
                     Thread.Sleep(500);
@@ -70,7 +71,7 @@
             }
         }
 
-        public void showInventory()
+        public void showInventory() // 인벤토리 메뉴
         {
             while (true)
             {
@@ -92,7 +93,7 @@
                         case 0:
                             return;
                         case 1:
-                            showEquipItem();
+                            showEquipItem();    // 아이템 장착
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
@@ -108,7 +109,7 @@
             }
         }
 
-        public void showEquipItem()
+        public void showEquipItem() // 아이템 장착 화면
         {
             while (true)
             {
@@ -144,12 +145,12 @@
                         Item item = equipment[input - 1];
                         if (item.isEquipped == false)
                         {
-                            equipItem(item);
+                            equipItem(item);    // 아이템 장착
                             continue;
                         }
                         else
                         {
-                            unequipItem(item);
+                            unequipItem(item);  // 아이템 해제
                             continue;
                         }
                     }
@@ -171,7 +172,7 @@
             }
         }
 
-        public void equipItem(Item item)
+        public void equipItem(Item item)    // 아이템 장착
         {
             if (item.isEquipped)
                 return;
@@ -180,7 +181,7 @@
             {
                 if (weapon != null)
                 {
-                    unequipItem(weapon);
+                    unequipItem(weapon);    // 기존 무기 해제
                 }
                 weapon = item;
                 attack += item.power;
@@ -189,7 +190,7 @@
             {
                 if (armor != null)
                 {
-                    unequipItem(armor);
+                    unequipItem(armor);     // 기존 방어구 해제
                 }
                 armor = item;
                 defense += item.power;
@@ -197,7 +198,7 @@
             item.isEquipped = true;
         }
 
-        public void unequipItem(Item item)
+        public void unequipItem(Item item)  // 아이템 해제
         {
             if (item.type == ItemType.Attack)
             {
@@ -212,14 +213,14 @@
             item.isEquipped = false;
         }
 
-        public void levelUp()
+        public void levelUp()   // 레벨 업
         {
             level += 1;
             attack += 0.5f;
             defense += 1f;
         }
 
-        public void rest()
+        public void rest()  // 휴식 화면
         {
             while (true)
             {
