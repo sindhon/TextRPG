@@ -140,7 +140,7 @@
                 {
                     int input = int.Parse(Console.ReadLine());
 
-                    if (input > 0 && input <= equipment.Count)
+                    if (input > 0 && input <= equipment.Count)  // 입력받은 값이 유효한 인덱스의 아이템일 경우
                     {
                         Item item = equipment[input - 1];
                         if (item.isEquipped == false)
