@@ -2,11 +2,11 @@
 {
     public enum Action
     {
-        Status = 1,
-        Inventory,
-        Shop,
-        Dungeon,
-        Rest
+        Status = 1, // 1: 상태 보기
+        Inventory,  // 2: 인벤토리 보기
+        Shop,       // 3: 상점 이용
+        Dungeon,    // 4: 던전 입장
+        Rest        // 5: 휴식하기 
     }
 
     public class Game
@@ -17,9 +17,9 @@
 
         public Game()
         {
-            player = new Player();
-            shop = new Shop();
-            sDungeon = new StartDungeon();
+            player = new Player();  // 게임 시작 시 플레이어 생성
+            shop = new Shop();      // 게임 시작 시 상점 생성
+            sDungeon = new StartDungeon();  // 던전 생성
         }
 
         public void Start()
@@ -43,19 +43,19 @@
                     switch (action)
                     {
                         case Action.Status:
-                            player.showStatus();
+                            player.showStatus();    // 상태 보기
                             break;
                         case Action.Inventory:
-                            player.showInventory();
+                            player.showInventory(); // 인벤토리 보기
                             break;
                         case Action.Shop:
-                            shop.showShop(player);
+                            shop.showShop(player);  // 상점 열기
                             break;
                         case Action.Dungeon:
-                            sDungeon.showDungeon(player);
-                            break;
+                            sDungeon.showDungeon(player);   // 던전 입장
+                            break;  
                         case Action.Rest:
-                            player.rest();
+                            player.rest();      // 휴식하기
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
@@ -63,7 +63,7 @@
                             break;
                     }
                 }
-                catch (FormatException)
+                catch (FormatException) // 입력이 숫자가 아닐 경우 예외 처리
                 {
                     Console.WriteLine("잘못된 입력입니다.");
                     Thread.Sleep(500);
