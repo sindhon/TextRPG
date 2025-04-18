@@ -2,9 +2,9 @@
 {
     public class Shop
     {
-        private List<Item> items;
+        private List<Item> items;   // 판매할 아이템이 들어갈 리스트
 
-        public Shop()
+        public Shop()   // 상점에서 판매할 아이템 초기화
         {
             items = new List<Item>
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        public void showShop(Player player)
+        public void showShop(Player player) // 상점 화면
         {
             while (true)
             {
@@ -28,6 +28,7 @@
                 Console.WriteLine($"[보유 골드]\n{player.gold} G\n");
                 Console.WriteLine("[아이템 목록]");
 
+                // 아이템 목록 출력
                 for (int i = 0; i < items.Count; i++)
                 {
                     Console.WriteLine($"- {items[i].showShopItem()}");
@@ -47,10 +48,10 @@
                         case 0:
                             return;
                         case 1:
-                            buyItem(player);
+                            buyItem(player);    // 아이템 구매
                             break;
                         case 2:
-                            sellitem(player);
+                            sellitem(player);   // 아이템 판매
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
@@ -66,7 +67,7 @@
             }
         }
 
-        public void buyItem(Player player)
+        public void buyItem(Player player)  // 아이템 구매 화면
         {
             while (true)
             {
@@ -77,6 +78,7 @@
                 Console.WriteLine($"[보유 골드]\n{player.gold} G\n");
                 Console.WriteLine("[아이템 목록]");
 
+                // 번호가 추가된 목록 출력
                 for (int i = 0; i < items.Count; i++)
                 {
                     Console.WriteLine($"- {i + 1} {items[i].showShopItem()}");
@@ -100,7 +102,7 @@
                             continue;
                         }
 
-                        if (player.gold >= item.price)
+                        if (player.gold >= item.price)  // 골드가 충분할 경우
                         {
                             player.gold -= item.price;
                             item.isPurchased = true;
@@ -134,7 +136,7 @@
             }
         }
 
-        public void sellitem(Player player)
+        public void sellitem(Player player)     // 아이템 판매 화면
         {
             while (true)
             {
@@ -145,6 +147,7 @@
                 Console.WriteLine($"[보유 골드]\n{player.gold} G\n");
                 Console.WriteLine("[아이템 목록]\n");
 
+                // 판매할 아이템 목록 출력
                 if (player.equipment.Count != 0)
                 {
                     for (int i = 0; i < player.equipment.Count; i++)
@@ -166,16 +169,16 @@
                 {
                     int input = int.Parse(Console.ReadLine());
 
-                    if (input > 0 && input <= player.equipment.Count)
+                    if (input > 0 && input <= player.equipment.Count) // 입력받은 값이 유효한 인덱스의 아이템일 경우
                     {
                         Item item = player.equipment[input - 1];
 
-                        player.gold += item.sellPrice;
-                        item.isPurchased = false;
+                        player.gold += item.sellPrice;  // 판매 금액만큼 골드 획득
+                        item.isPurchased = false;       // 구매 상태 해제(상점에서 다시 구매 가능)
+                                
+                        player.unequipItem(item);       // 장착된 아이템이라면 해제
 
-                        player.unequipItem(item);
-
-                        player.equipment.Remove(item);
+                        player.equipment.Remove(item);  // 장비 목록에서 제거
 
                         Console.WriteLine("아이템을 판매했습니다.");
                         Thread.Sleep(500);
