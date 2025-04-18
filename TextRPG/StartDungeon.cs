@@ -2,9 +2,9 @@
 {
     public class StartDungeon
     {
-        List<Dungeon> dungeons;
+        List<Dungeon> dungeons; // 입장 가능한 던전이 들어갈 리스트
 
-        public StartDungeon()
+        public StartDungeon()   // 던전 초기화
         {
             dungeons = new List<Dungeon>
             {
@@ -14,7 +14,7 @@
             };
         }
 
-        public void showDungeon(Player player)
+        public void showDungeon(Player player)  // 던전 선택 화면 표시
         {
             while (true)
             {
@@ -36,7 +36,7 @@
                 {
                     int input = int.Parse(Console.ReadLine());
 
-                    if (input > 0 && input <= dungeons.Count)
+                    if (input > 0 && input <= dungeons.Count)   // 입력받은 값이 유효한 인덱스의 던전일 경우
                     {
                         Dungeon dungeon = dungeons[input - 1];
                         showResult(player, dungeon);
@@ -59,33 +59,35 @@
             }
         }
 
-        public void showResult(Player player, Dungeon dungeon)
+        public void showResult(Player player, Dungeon dungeon)  // 던전 결과 표시
         {
             Random rand = new Random();
 
             bool isFail = false;
             int failPercent = rand.Next(0, 10);
-            if (player.defense < dungeon.reqDef && failPercent < 4)
+
+            // 플레이어의 방어력이 권장 방어력보다 낮을 경우 40% 확률로 실패
+            if (player.defense < dungeon.reqDef && failPercent < 4) 
             {
                 isFail = true;
             }
 
             float currentHP = player.hp;
+
+            // 피해량 계산
             int damageTaken = rand.Next(25, 36);
             float totalDamageTaken = damageTaken + (dungeon.reqDef - player.defense);
             player.hp -= totalDamageTaken;
 
+            
             int currentGold = player.gold;
             int baseGold = dungeon.rewardGold;
+
+            // 보상 골드 계산: 기본 보상 + 공격력 기반 보너스
             float power = player.attack;
             int bonus = rand.Next((int)power, (int)(power * 2) + 1);
             int bonusGold = baseGold * bonus / 100;
             int totalGold = baseGold + bonusGold;
-
-            if (!isFail)
-            {
-                player.gold += totalGold;
-            }
 
             while (true)
             {
@@ -122,7 +124,12 @@
                     switch (input)
                     {
                         case 0:
-                            dungeon.giveExp(player);
+                            // 던전 클리어시 골드 지급
+                            if (!isFail)
+                            {
+                                player.gold += totalGold;
+                                dungeon.giveExp(player);
+                            }
                             return;
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
